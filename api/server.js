@@ -10,6 +10,8 @@ app.use(cors());
 
 dotenv.config();
 
+let PORT = process.env.PORT || 3001;
+
 mongoose
   .connect(
     `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.zvxlzjd.mongodb.net/?retryWrites=true&w=majority`,
@@ -22,6 +24,10 @@ mongoose
   .catch(console.error);
 
 const Todo = require('./models/Todo');
+
+app.get('/', (req, res) => {
+  res.send('Hello from MERN TODO Api!!!');
+});
 
 app.get('/todos', async (req, res) => {
   const todos = await Todo.find();
@@ -65,4 +71,6 @@ app.put('/todo/update/:id', async (req, res) => {
   res.json(todo);
 });
 
-app.listen(3001);
+app.listen(PORT, () => {
+  console.log('listening on port ' + PORT);
+});
